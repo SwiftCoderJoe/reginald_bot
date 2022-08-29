@@ -1,11 +1,11 @@
 module.exports = {
     apps : [{
-      name: "reggiebot-production",
-      script: './',
+      name: "reginaldbot-production",
+      script: './reginald_bot',
       watch: false,
       time: true,
       env: {
-        "DISCORD_TOKEN": "NjU3MDEyMzg5Njg2MDE4MDgy.GllXtB.fIDzI6bM-kN9YTzLzZ3k9sIHxdxGAIWm9fvQBk"
+        "DISCORD_TOKEN": ""
       }
     }],
   };
