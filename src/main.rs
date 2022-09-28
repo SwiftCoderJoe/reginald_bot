@@ -2,6 +2,7 @@ extern crate rand;
 
 use std::env;
 
+use rand::Rng;
 use serenity::{
     async_trait,
     model::{channel::Message,},
@@ -23,16 +24,25 @@ impl EventHandler for Handler {
             }
         }
 
-        if msg.author.id == 289158192955392001 && rand::random::<f64>() < 0.1 {
+        // One in forty chance of ranomly sending a gifreply
+        if msg.author.id == 289158192955392001 && rand::random::<f64>() < 0.025 {
             reply_true_false(ctx, &msg).await;
         }
     }
 }
 
 async fn reply_true_false(ctx: Context, msg: &Message) {
+
+    let reply = match rand::thread_rng().gen_range(1..=15) {
+        1..=7 => "true",
+        8..=14 => "false",
+        15 => "perhaps",
+        _ => "Unknown random number generated. Report this to SwiftCoderJoe."
+    };
+
     if let Err(why) = msg.reply(
-        &ctx.http, 
-        if rand::random::<f64>() < 0.5 { "true" } else { "false" }
+        &ctx.http,
+        reply
     ).await {
         println!("Error sending message: {:?}", why)
     };
