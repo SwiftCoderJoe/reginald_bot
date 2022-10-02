@@ -24,7 +24,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag reggiebot:$(date +%s)
+        run: docker build . --file Dockerfile --tag ghcr.io/swiftcoderjoe/reggiebot:$(date +%s)
         
       - name: Publish the Docker image
         run: docker push ghcr.io/swiftcoderjoe/reggiebot:latest
