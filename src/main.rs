@@ -1,6 +1,8 @@
 extern crate rand;
 
-use std::env;
+use lazy_static::lazy_static;
+
+mod config;
 
 use rand::Rng;
 use serenity::{
@@ -10,6 +12,11 @@ use serenity::{
 };
 
 struct Handler;
+
+lazy_static! {
+    static ref SETTINGS: config::Config = config::readConfig();
+}
+
 
 #[async_trait]
 impl EventHandler for Handler {
@@ -34,28 +41,38 @@ impl EventHandler for Handler {
 async fn reply_true_false(ctx: Context, msg: &Message) {
 
     let reply = match rand::thread_rng().gen_range(1..=15) {
-        1..=7 => "true",
-        8..=14 => "false",
-        15 => "perhaps",
-        _ => "Unknown random number generated. Report this to SwiftCoderJoe."
+        1..=7 => Some(&SETTINGS.true_gif),
+        8..=14 => Some(&SETTINGS.false_gif),
+        15 => Some(&SETTINGS.perhaps_gif),
+        _ => None
     };
 
-    if let Err(why) = msg.reply(
-        &ctx.http,
-        reply
-    ).await {
-        println!("Error sending message: {:?}", why)
-    };
+    if let Some(reply) = reply {
+        if let Err(why) = msg.reply(
+            &ctx.http,
+            reply
+        ).await {
+            println!("Error sending message: {:?}", why)
+        };
+    } else {
+        if let Err(why) = msg.reply(
+            &ctx.http,
+            "An unknown random number was generated. Report this to SwiftCoderJoe."
+        ).await {
+            println!("Error sending message: {:?}", why)
+        };
+    }
+    
+    
 }
 
 #[tokio::main]
 async fn main() {
-    let token = env::var("DISCORD_TOKEN").expect("token");
     let intents = GatewayIntents::non_privileged() | GatewayIntents::MESSAGE_CONTENT;
-    let mut client = Client::builder(token, intents)
+    let mut client = Client::builder(&SETTINGS.token, intents)
         .event_handler(Handler)
         .await
-        .expect("Err creating client");
+        .expect("Error creating client");
 
     if let Err(why) = client.start().await {
         println!("Client error: {:?}", why);
