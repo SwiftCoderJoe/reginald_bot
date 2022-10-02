@@ -2,10 +2,7 @@ extern crate rand;
 
 use lazy_static::lazy_static;
 
-use std::fs::File;
-use std::io::prelude::*;
-
-use serde_derive::Deserialize;
+mod config;
 
 use rand::Rng;
 use serenity::{
@@ -16,26 +13,8 @@ use serenity::{
 
 struct Handler;
 
-#[derive(Deserialize)]
-struct Config {
-    token: String,
-    true_gif: String,
-    false_gif: String,
-    perhaps_gif: String,
-}
-
 lazy_static! {
-    static ref SETTINGS: Config = {
-        let mut input = String::new();
-
-        File::open("config.toml")
-            .and_then(|mut f| f.read_to_string(&mut input))
-            .unwrap();
-
-        println!("{}", input);
-
-        toml::from_str(&input).unwrap()
-    };
+    static ref SETTINGS: config::Config = config::readConfig();
 }
 
 
