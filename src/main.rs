@@ -72,7 +72,7 @@ async fn main() {
     let mut client = Client::builder(&SETTINGS.token, intents)
         .event_handler(Handler)
         .await
-        .expect("Err creating client");
+        .expect("Error creating client");
 
     if let Err(why) = client.start().await {
         println!("Client error: {:?}", why);
