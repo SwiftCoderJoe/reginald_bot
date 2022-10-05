@@ -17,7 +17,5 @@ pub fn readConfig() -> Config {
         .and_then(|mut f| f.read_to_string(&mut input))
         .unwrap();
 
-    println!("{}", input);
-
     toml::from_str(&input).unwrap()
 }
