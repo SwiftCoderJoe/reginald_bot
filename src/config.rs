@@ -10,7 +10,7 @@ pub struct Config {
     pub perhaps_gif: String,
 }
 
-pub fn readConfig() -> Config {
+pub fn read_config() -> Config {
     let mut input = String::new();
 
     File::open("config.toml")

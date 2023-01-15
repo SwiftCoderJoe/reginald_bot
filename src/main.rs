@@ -14,7 +14,7 @@ use serenity::{
 struct Handler;
 
 lazy_static! {
-    static ref SETTINGS: config::Config = config::readConfig();
+    static ref SETTINGS: config::Config = config::read_config();
 }
 
 
