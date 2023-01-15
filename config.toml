@@ -1,5 +1,7 @@
 token = "Your token here"
 
+annoyed_person = DiscordID
+
 true_gif = "A funny gif here"
 false_gif = "A funny gif here"
 perhaps_gif = "A funny gif here"

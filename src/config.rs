@@ -5,6 +5,9 @@ use std::io::prelude::*;
 #[derive(Deserialize)]
 pub struct Config {
     pub token: String,
+
+    pub annoyed_person: u64,
+
     pub true_gif: String,
     pub false_gif: String,
     pub perhaps_gif: String,

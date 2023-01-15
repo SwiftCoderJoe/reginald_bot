@@ -32,7 +32,7 @@ impl EventHandler for Handler {
         }
 
         // One in forty chance of ranomly sending a gifreply
-        if msg.author.id == 289158192955392001 && rand::random::<f64>() < 0.025 {
+        if msg.author.id == SETTINGS.annoyed_person && rand::random::<f64>() < 0.025 {
             reply_true_false(ctx, &msg).await;
         }
     }
