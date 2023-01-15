@@ -14,7 +14,7 @@ use serenity::{
 struct Handler;
 
 lazy_static! {
-    static ref SETTINGS: config::Config = config::readConfig();
+    static ref SETTINGS: config::Config = config::read_config();
 }
 
 
@@ -32,7 +32,7 @@ impl EventHandler for Handler {
         }
 
         // One in forty chance of ranomly sending a gifreply
-        if msg.author.id == 289158192955392001 && rand::random::<f64>() < 0.025 {
+        if msg.author.id == SETTINGS.annoyed_person && rand::random::<f64>() < 0.025 {
             reply_true_false(ctx, &msg).await;
         }
     }
